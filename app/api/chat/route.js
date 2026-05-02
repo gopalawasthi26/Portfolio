@@ -1,9 +1,3 @@
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
-
 const GOPAL_CONTEXT = `You are an AI assistant representing Gopal Awasthi's portfolio. Answer questions about Gopal in first person as if you are speaking on his behalf.
 
 About Gopal Awasthi:
@@ -15,67 +9,63 @@ About Gopal Awasthi:
 Skills:
 - Programming Languages: Java (primary), Python, C, C++, SQL
 - Web Technologies: HTML, CSS, JavaScript, REST APIs, Streamlit
-- Core CS: Data Structures & Algorithms, DBMS, Operating Systems, Computer Networks, OOPS
-- Tools: Git, GitHub
-- Frameworks: Streamlit
+- Core CS: DSA, DBMS, Operating Systems, Computer Networks, OOPS
+- Tools: Git, GitHub, Streamlit
 
 Projects:
-1. AI-powered ATS Resume Analyzer:
-   - Built with Python, Streamlit, and Google Gemini AI
-   - Analyzes resume vs job description, gives ATS score (0-100%)
-   - Keyword matching, skill gap analysis, real-time AI feedback
-   - Tested on 50+ resumes with ~82% accuracy
-   - Deployed on Render
-   - GitHub: https://github.com/gopalawasthi26/ATS-Resume-Analyser
+1. AI-powered ATS Resume Analyzer - Python, Streamlit, Google Gemini AI, 82% accuracy
+2. Hotel Management System - JavaScript, HTML, CSS
+3. LeetCode Solutions - Java, DSA (75-day streak)
+4. Mini Projects Collection - JavaScript
 
-2. Mini Projects (JavaScript): Various small web projects
-   - GitHub: https://github.com/gopalawasthi26/Miniprojects
+Social: GitHub: gopalawasthi26, LinkedIn: gopal-awasthi-4b3936263, LeetCode: Gopalawasthi_
 
-3. LeetCode Solutions (Java): Logically solved problems
-   - GitHub: https://github.com/gopalawasthi26/Leetcode
-
-4. Hotel Management System (JavaScript):
-   - GitHub: https://github.com/gopalawasthi26/ManageMyHotel
-
-Achievements:
-- 75 Days Coding Streak
-- Selected as Programmer Analyst at Cognizant
-- Hackathon Leadership Experience
-- Focused on Java + SQL + System Design
-
-Social Links:
-- GitHub: https://github.com/gopalawasthi26
-- LinkedIn: https://linkedin.com/in/gopal-awasthi-4b3936263
-- LeetCode: https://leetcode.com/u/Gopalawasthi_/
-- Instagram: https://instagram.com/rudra.awasthi26_
-
-Be friendly, professional and enthusiastic. Keep answers concise (2-4 sentences). If asked about availability for work/collaboration, say Gopal is open to exciting opportunities.`
+Be friendly, professional, enthusiastic. Keep answers 2-4 sentences. Open to exciting opportunities.`
 
 export async function POST(request) {
   try {
     const { message, history } = await request.json()
 
-    const messages = [
-      ...(history || []),
-      { role: 'user', content: message }
-    ]
+    const apiKey = process.env.GEMINI_API_KEY
+    if (!apiKey) {
+      return Response.json({ reply: "AI chatbot coming soon! 🤖", success: false })
+    }
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 500,
-      system: GOPAL_CONTEXT,
-      messages,
-    })
+    const contents = []
+    if (history && history.length > 0) {
+      for (const msg of history) {
+        if (msg.role === 'user') {
+          contents.push({ role: 'user', parts: [{ text: msg.content }] })
+        } else if (msg.role === 'assistant') {
+          contents.push({ role: 'model', parts: [{ text: msg.content }] })
+        }
+      }
+    }
+    contents.push({ role: 'user', parts: [{ text: message }] })
 
-    return Response.json({
-      reply: response.content[0].text,
-      success: true
-    })
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: GOPAL_CONTEXT }] },
+          contents,
+          generationConfig: { maxOutputTokens: 300, temperature: 0.7 },
+        }),
+      }
+    )
+
+    const data = await response.json()
+    if (!response.ok) {
+      return Response.json({ reply: "I'm having a moment! Try again. 🤖", success: false }, { status: 500 })
+    }
+
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Try again! 🤖"
+    return Response.json({ reply, success: true })
+
   } catch (error) {
-    console.error('AI API error:', error)
-    return Response.json({
-      reply: "I'm having a moment! Please try again. 🤖",
-      success: false
-    }, { status: 500 })
+    console.error('Gemini API error:', error)
+    return Response.json({ reply: "Something went wrong! Try again. 🤖", success: false }, { status: 500 })
   }
 }

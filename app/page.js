@@ -511,7 +511,7 @@ function AIChat() {
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-xs font-bold text-white">AI</div>
               <div>
                 <p className="text-white font-semibold text-sm">Ask about Gopal</p>
-                <p className="text-cyan-400 text-xs">● Powered by Claude AI</p>
+                <p className="text-cyan-400 text-xs">● Powered by Gemini AI</p>
               </div>
             </div>
           </div>

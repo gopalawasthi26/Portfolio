@@ -44,8 +44,7 @@ export async function POST(request) {
     contents.push({ role: 'user', parts: [{ text: message }] })
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,      {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,10 +55,11 @@ export async function POST(request) {
       }
     )
 
-    const data = await response.json()
-    if (!response.ok) {
-      return Response.json({ reply: "I'm having a moment! Try again. 🤖", success: false }, { status: 500 })
-    }
+   const data = await response.json()
+if (!response.ok) {
+  console.error('Gemini error:', JSON.stringify(data))  // ← yeh add karo
+  return Response.json({ reply: "I'm having a moment! Try again. 🤖", success: false }, { status: 500 })
+}
 
     const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Try again! 🤖"
     return Response.json({ reply, success: true })

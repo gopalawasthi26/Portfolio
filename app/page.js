@@ -15,13 +15,34 @@ const skills = [
 
 const projects = [
   {
+    title: 'AI Code Reviewer',
+    emoji: '🔍',
+    desc: 'AI-powered code review using Google Gemini 2.0. Instantly analyzes your code, spots bugs, suggests improvements, and explains issues — all in a clean React interface.',
+    tags: ['Python', 'FastAPI', 'Gemini 2.0', 'React.js'],
+    stats: 'Real-time AI feedback',
+    link: 'https://github.com/gopalawasthi26/Gopal_AI_CODE_CHECKER',
+    liveLink: 'https://gopal-ai-code-checker.vercel.app/',
+    highlight: true,
+  },
+  {
+    title: 'DocMind AI — RAG Document Q&A',
+    emoji: '📄',
+    desc: 'Upload any PDF and ask questions — get accurate, context-aware answers instantly. Full RAG pipeline: chunks → embeddings → vector retrieval → LLM answer with real-time latency tracking.',
+    tags: ['LangChain', 'Gemini AI', 'React.js', 'ChromaDB', 'FastAPI'],
+    stats: 'RAG pipeline • PDF Q&A',
+    link: 'https://github.com/gopalawasthi26/Gopal_AI_DOCU_ANALYIS',
+    liveLink: 'https://gopal-ai-docu-analyis.vercel.app/',
+    highlight: true,
+  },
+  {
     title: 'AI-Powered ATS Resume Analyzer',
     emoji: '🤖',
     desc: 'Analyzes resumes against job descriptions using Google Gemini AI. Generates ATS score (0–100%), identifies missing keywords, and gives personalized suggestions.',
     tags: ['Python', 'Streamlit', 'Gemini AI', 'PyMuPDF', 'NLP'],
     stats: '50+ resumes tested • 82% accuracy',
     link: 'https://github.com/gopalawasthi26/ATS-Resume-Analyser',
-    highlight: true,
+    liveLink: null,
+    highlight: false,
   },
   {
     title: 'Hotel Management System',
@@ -30,6 +51,7 @@ const projects = [
     tags: ['JavaScript', 'HTML', 'CSS'],
     stats: 'Full CRUD operations',
     link: 'https://github.com/gopalawasthi26/ManageMyHotel',
+    liveLink: null,
     highlight: false,
   },
   {
@@ -39,6 +61,7 @@ const projects = [
     tags: ['Java', 'DSA', 'Algorithms'],
     stats: '75-day streak',
     link: 'https://github.com/gopalawasthi26/Leetcode',
+    liveLink: null,
     highlight: false,
   },
   {
@@ -48,6 +71,7 @@ const projects = [
     tags: ['JavaScript', 'HTML', 'CSS', 'DOM'],
     stats: 'Multiple projects',
     link: 'https://github.com/gopalawasthi26/Miniprojects',
+    liveLink: null,
     highlight: false,
   },
 ]
@@ -227,7 +251,7 @@ function Hero() {
           <div className="flex justify-center lg:justify-start gap-8 text-center">
             {[
               { value: '75+', label: 'Days Streak' },
-              { value: '4+', label: 'Projects' },
+              { value: '6+', label: 'Projects' },
               { value: '3+', label: 'Languages' },
               { value: '1+', label: 'Year Exp' },
             ].map(stat => (
@@ -371,12 +395,9 @@ function Projects() {
 
       <div className="grid md:grid-cols-2 gap-6">
         {projects.map((p, i) => (
-          <a
+          <div
             key={p.title}
-            href={p.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`gradient-border rounded-xl p-6 hover:scale-[1.02] transition-all group block ${
+            className={`gradient-border rounded-xl p-6 hover:scale-[1.02] transition-all group ${
               p.highlight ? 'md:col-span-2' : ''
             }`}
           >
@@ -401,9 +422,28 @@ function Projects() {
 
             <div className="flex justify-between items-center">
               <span className="text-gray-500 text-xs">{p.stats}</span>
-              <span className="text-cyan-400 text-xs group-hover:translate-x-1 transition-transform">View on GitHub →</span>
+              <div className="flex items-center gap-3">
+                {p.liveLink && (
+                  <a
+                    href={p.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs bg-cyan-400/10 text-cyan-400 border border-cyan-400/40 px-3 py-1 rounded-full hover:bg-cyan-400 hover:text-gray-900 transition-all font-semibold"
+                  >
+                    🚀 Live Demo
+                  </a>
+                )}
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-400 text-xs hover:translate-x-1 transition-transform inline-block"
+                >
+                  View on GitHub →
+                </a>
+              </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </section>

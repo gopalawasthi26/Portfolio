@@ -15,6 +15,16 @@ const skills = [
 
 const projects = [
   {
+    title: 'Rudra Neural Nexus — Multi-Agent AI',
+    emoji: '🤖',
+    desc: 'An autonomous multi-agent AI system powered by Groq\'s Llama3-70B. Three specialized AI agents collaborate to research the web, summarize content, and draft professional emails — all through a hacker-style terminal interface.',
+    tags: ['Groq', 'Llama3-70B', 'Multi-Agent', 'Python', 'FastAPI'],
+    stats: '3 AI agents • Hacker terminal UI',
+    link: 'https://github.com/gopalawasthi26/rudra-neural-nexus-multi-agent-ai',
+    liveLink: 'https://rudra-neural-nexus-multi-agent-ai.onrender.com/',
+    highlight: true,
+  },
+  {
     title: 'AI Code Reviewer',
     emoji: '🔍',
     desc: 'AI-powered code review using Google Gemini 2.0. Instantly analyzes your code, spots bugs, suggests improvements, and explains issues — all in a clean React interface.',

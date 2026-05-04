@@ -397,7 +397,7 @@ function Projects() {
         {projects.map((p, i) => (
           <div
             key={p.title}
-            className={`gradient-border rounded-xl p-6 hover:scale-[1.02] transition-all group ${
+            className={`gradient-border rounded-xl p-6 hover:scale-[1.02] transition-all group relative ${
               p.highlight ? 'md:col-span-2' : ''
             }`}
           >
@@ -420,7 +420,7 @@ function Projects() {
               ))}
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center relative z-10">
               <span className="text-gray-500 text-xs">{p.stats}</span>
               <div className="flex items-center gap-3">
                 {p.liveLink && (
@@ -428,7 +428,7 @@ function Projects() {
                     href={p.liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs bg-cyan-400/10 text-cyan-400 border border-cyan-400/40 px-3 py-1 rounded-full hover:bg-cyan-400 hover:text-gray-900 transition-all font-semibold"
+                    className="text-xs bg-cyan-400/10 text-cyan-400 border border-cyan-400/40 px-3 py-1 rounded-full hover:bg-cyan-400 hover:text-gray-900 transition-all font-semibold relative z-10"
                   >
                     🚀 Live Demo
                   </a>
@@ -437,7 +437,7 @@ function Projects() {
                   href={p.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan-400 text-xs hover:translate-x-1 transition-transform inline-block"
+                  className="text-cyan-400 text-xs hover:translate-x-1 transition-transform inline-block relative z-10"
                 >
                   View on GitHub →
                 </a>
